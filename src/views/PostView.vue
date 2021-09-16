@@ -83,7 +83,7 @@ export default {
   },
   methods: {
     getPost () {
-      api.get('/post-view/' + this.form.postId)
+      api.get('/posts/view/' + this.form.postId)
         .then((response) => {
           this.post = response.data[0]
           this.comments = response.data[0].comments
@@ -97,7 +97,7 @@ export default {
     },
     addComment (event) {
       event.preventDefault()
-      api.post('/comment-add', this.form)
+      api.post('/comment/add', this.form)
         .then((response) => {
           this.getPost()
           this.resetForm()

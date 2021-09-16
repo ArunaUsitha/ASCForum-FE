@@ -30,32 +30,32 @@ const routes = [
     component: Register
   },
   {
-    path: '/post-create',
-    name: 'post-create',
+    path: '/posts/create',
+    name: 'posts/create',
     component: PostCreate,
     meta: {
       authOnly: true
     }
   },
   {
-    path: '/posts-pending',
-    name: 'posts-pending',
+    path: '/posts/pending',
+    name: 'posts/pending',
     component: PostsPending,
     meta: {
       authOnly: true
     }
   },
   {
-    path: '/post-view/:id',
-    name: 'post-view',
+    path: '/posts/view/:id',
+    name: 'posts/view',
     component: PostView,
     meta: {
       authOnly: true
     }
   },
   {
-    path: '/posts',
-    name: 'posts',
+    path: '/posts/all',
+    name: 'posts/all',
     component: MyPosts,
     meta: {
       authOnly: true
@@ -65,7 +65,6 @@ const routes = [
 
 const router = new VueRouter({
   mode: 'history',
-  base: process.env.BASE_URL,
   routes
 })
 

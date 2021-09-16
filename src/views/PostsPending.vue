@@ -6,11 +6,11 @@
       </b-col>
       <b-col lg="8">
         <b-alert class="alert-custom"
-          :show="dismissCountDown"
-          dismissible
-          :variant="variant"
-          @dismissed="dismissCountDown=0"
-          @dismiss-count-down="countDownChanged"
+                 :show="dismissCountDown"
+                 dismissible
+                 :variant="variant"
+                 @dismissed="dismissCountDown=0"
+                 @dismiss-count-down="countDownChanged"
         >
           {{ dismissMessage }}
         </b-alert>
@@ -63,7 +63,7 @@ export default {
   },
   methods: {
     deletePost (postId) {
-      api.get('/post-delete/' + postId)
+      api.get('/posts/delete/' + postId)
         .then((response) => {
           this.variant = 'success'
           this.dismissCountDown = 5
@@ -72,26 +72,23 @@ export default {
         })
     },
     ApprovePost (postId) {
-      api.post('/post-approve', { postId })
+      api.post('/posts/approve', { postId })
         .then((response) => {
-          console.log(response)
           this.variant = 'success'
           this.dismissCountDown = 5
           this.dismissMessage = response.data.message
+        }).then(() => {
           this.getPosts()
-        })
-        .catch(error => {
+        }).catch(error => {
           if (error.response.status === 500) {
             this.variant = 'danger'
             this.dismissCountDown = 5
             this.dismissMessage = error.response.data.message
-          } else if (error.response.status === 401) {
-            this.$router.push({ name: 'Login' })
           }
         })
     },
     RejectPost (postId) {
-      api.post('/post-reject', { postId })
+      api.post('/posts/reject', { postId })
         .then((response) => {
           this.variant = 'success'
           this.dismissCountDown = 5
@@ -109,7 +106,7 @@ export default {
         })
     },
     getPosts () {
-      api.get('/posts-pending')
+      api.get('/posts/pending')
         .then((response) => {
           this.posts = response.data.posts
           this.role = response.data.role
@@ -121,7 +118,10 @@ export default {
       }
     },
     viewPost: function (index) {
-      return this.$router.push({ name: 'post-view', params: { id: index } })
+      return this.$router.push({
+        name: 'posts/view',
+        params: { id: index }
+      })
     },
     countDownChanged (dismissCountDown) {
       this.dismissCountDown = dismissCountDown
@@ -140,19 +140,23 @@ export default {
 .post-card {
   margin: 10px 10px;
 }
-.cursor-pointer{
+
+.cursor-pointer {
   cursor: pointer;
 }
-.alert-custom{
- margin-top: 10px;
+
+.alert-custom {
+  margin-top: 10px;
 }
-.elipsis{
+
+.elipsis {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .un-approved {
   background-color: #ec8686;
 }

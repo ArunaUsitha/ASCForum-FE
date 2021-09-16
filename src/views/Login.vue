@@ -92,6 +92,7 @@ export default {
       user.login(this.form).then(response => {
         localStorage.setItem('auth', 'true')
         localStorage.setItem('username', response.data.name)
+        localStorage.setItem('userId', response.data.id)
         this.$router.push('/')
       })
         .catch(error => {

@@ -116,8 +116,7 @@ export default {
       errors: []
     }
   },
-  computed: {
-  },
+  computed: {},
   methods: {
     countDownChanged (dismissCountDown) {
       this.dismissCountDown = dismissCountDown
@@ -133,10 +132,10 @@ export default {
             .then(() => {
               this.variant = 'success'
               this.dismissCountDown = 5
-              this.dismissMessage = `Registration successfull. We will redirect you in ${this.dismissCountDown} seconds...`
+              this.dismissMessage = `Registration successfull. We will redirect you to login in  ${this.dismissCountDown} seconds...`
               setTimeout(function () {
-                this.$router.push('/')
-              }.bind(this), 6000)
+                this.$router.push('/login')
+              }.bind(this), this.dismissCountDown)
             })
             .catch((error) => {
               if (error.response.status === 422) {

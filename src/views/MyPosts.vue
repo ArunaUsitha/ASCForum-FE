@@ -62,20 +62,20 @@ export default {
   },
   methods: {
     deletePost (postId) {
-      api.get('/post-delete/' + postId)
+      api.get('/posts/delete/' + postId)
         .then((response) => {
           this.variant = 'success'
           this.dismissCountDown = 5
           this.dismissMessage = response.data.message
           this.getPosts()
-        })
+        }).catch(error => console.log(error))
     },
     getPosts () {
-      api.get('/posts')
+      api.get('/posts/all')
         .then((response) => {
           this.posts = response.data.posts
           this.role = response.data.role
-        })
+        }).catch(error => console.log(error))
     },
     postClass: function (post) {
       switch (post.status) {
@@ -86,7 +86,7 @@ export default {
       }
     },
     viewPost: function (index) {
-      return this.$router.push({ name: 'post-view', params: { id: index } })
+      return this.$router.push({ name: 'posts/view', params: { id: index } })
     },
     countDownChanged (dismissCountDown) {
       this.dismissCountDown = dismissCountDown
@@ -117,12 +117,6 @@ export default {
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-.pending{
-  background-color: #89bcff;
-}
-.rejected{
-  background-color: #ff7f8f;
 }
 
 </style>

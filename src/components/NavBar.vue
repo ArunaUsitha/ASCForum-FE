@@ -7,9 +7,9 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-nav-item href="/post-create">New post</b-nav-item>
-          <b-nav-item href="/posts">My posts</b-nav-item>
-          <b-nav-item href="/posts-pending">Pending posts</b-nav-item>
+          <b-nav-item href="/posts/create">New post</b-nav-item>
+          <b-nav-item href="/posts/all">My posts</b-nav-item>
+          <b-nav-item href="/posts/pending">Pending posts</b-nav-item>
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->
@@ -39,9 +39,11 @@ export default {
   },
   methods: {
     logout () {
-      console.log('logut')
+      console.log('logout')
       user.logout().then(() => {
+        localStorage.removeItem('username')
         localStorage.removeItem('auth')
+        localStorage.removeItem('userId')
         this.$router.push({ name: 'Login' })
       })
     }

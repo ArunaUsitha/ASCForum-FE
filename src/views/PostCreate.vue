@@ -96,7 +96,7 @@ export default {
     onSubmit (event) {
       event.preventDefault()
       Api.post(
-        '/post-create',
+        '/posts/create',
         this.form
       ).then(response => {
         this.resetForm()
@@ -107,12 +107,6 @@ export default {
         .catch(error => {
           if (error.response.status === 422) {
             this.errors = error.response.data.validation_errors
-          } else if (error.response.status === 500) {
-            this.variant = 'danger'
-            this.dismissCountDown = 5
-            this.dismissMessage = error.response.data.message
-          } else if (error.response.status === 401) {
-            this.$router.push({ name: 'Login' })
           }
         })
     },

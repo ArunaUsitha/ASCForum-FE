@@ -23,7 +23,7 @@
       {{ post.comments.length }}
       <b-icon-chat-text></b-icon-chat-text>
       | <span>Author : {{ post.user.name }}</span> |
-      <b-icon-trash-fill @click="deletePost(post.id)" class="deleteButton">Delete</b-icon-trash-fill>
+      <b-icon-trash-fill v-if="canDelete(post.user.id)" @click="deletePost(post.id)" class="deleteButton">Delete</b-icon-trash-fill>
     </b-card>
 
   </div>
@@ -52,30 +52,35 @@ export default {
     }
   },
   methods: {
+    isOwner: function (userid) {
+      const AuthUserID = localStorage.getItem('userId')
+      return AuthUserID.toString() === userid.toString()
+    },
+    // eslint-disable-next-line vue/return-in-computed-property
+    canDelete: function (userid) {
+      if (this.isAdmin) {
+        return true
+      } else if (this.isOwner(userid)) {
+        return true
+      } else {
+        return false
+      }
+    },
     deletePost (postId) {
-      api.get('/post-delete/' + postId)
+      api.get('/posts/delete/' + postId)
         .then((response) => {
           this.variant = 'success'
           this.dismissCountDown = 5
           this.dismissMessage = response.data.message
           this.getPosts()
-        })
-    },
-    ApprovePost (postId) {
-      api.post('/post-approve', { postId })
-        .then((response) => {
-        })
+        }).catch(error => console.log(error))
     },
     postApiCall () {
-      api.get('/posts-get?search=' + this.search)
+      api.get('/posts/get?search=' + this.search)
         .then((response) => {
           this.posts = response.data.posts
           this.role = response.data.role
-        }).catch(error => {
-          if (error.response.status === 401) {
-            this.$router.push({ name: 'Login' })
-          }
-        })
+        }).catch(error => console.log(error))
     },
     getPosts () {
       if (this.timer) {
@@ -93,7 +98,7 @@ export default {
     },
     viewPost: function (index) {
       return this.$router.push({
-        name: 'post-view',
+        name: 'posts/view',
         params: { id: index }
       })
     },
